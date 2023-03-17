@@ -45,6 +45,22 @@ export class App extends React.Component {
       contacts: prevState.contacts.filter(contact => contact.id !== contactId)}))
   }
 
+
+  componentDidMount(){
+    const savedContacts = JSON.parse(localStorage.getItem('contacts'));
+    if(savedContacts) {
+      this.setState({
+        contacts: savedContacts,
+      })
+    }
+  }
+
+  componentDidUpdate(_, prevState){
+    if(prevState.contacts !== this.state.contacts){
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    }
+  }
+
   getFilteredContacts = () => {
     const {filter} = this.state;
     const normalisedFilter = filter.toLowerCase();
